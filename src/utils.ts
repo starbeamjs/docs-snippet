@@ -104,9 +104,11 @@ export function format(
   });
 
   // remove trailing whitespace
-  return formatted
-    .trimEnd()
-    .split("\n")
-    .map((line) => line.trimEnd())
-    .join("\n");
+  return (
+    formatted
+      .trimEnd()
+      .split("\n")
+      .map((line) => line.trimEnd())
+      .join("\n") + "\n"
+  );
 }

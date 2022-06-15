@@ -110,6 +110,6 @@ export class LanguageRegion {
   }
 
   get code() {
-    return this.#code;
+    return this.#code.trimEnd() + "\n";
   }
 }
