@@ -103,7 +103,6 @@ export function format(
     ...options,
   });
 
-  // remove trailing whitespace
   return (
     formatted
       .trimEnd()
