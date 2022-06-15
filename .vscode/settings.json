@@ -1,0 +1,5 @@
+{
+  "vitest.enable": true,
+  "vitest.include": ["**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}"],
+  "testing.automaticallyOpenPeekView": "never"
+}

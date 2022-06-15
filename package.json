@@ -1,0 +1,56 @@
+{
+  "name": "docs-snippet",
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.ts",
+  "module": "index.ts",
+  "publishConfig": {
+    "main": "./dist/lib/index.cjs",
+    "module": "./dist/lib/index.js",
+    "types": "./dist/types/index.d.ts",
+    "exports": {
+      ".": {
+        "types": "./dist/types/index.d.ts",
+        "import": "./dist/lib/index.mjs",
+        "require": "./dist/lib/index.cjs"
+      }
+    }
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "pnpm": {
+    "overrides": {
+      "typescript": "next"
+    }
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/core": "^7.18.5",
+    "@babel/plugin-syntax-decorators": "^7.17.12",
+    "@babel/plugin-transform-typescript": "^7.18.4",
+    "@babel/traverse": "^7.18.5",
+    "@swc/core": "^1.2.203",
+    "prettier": "^2.7.0"
+  },
+  "devDependencies": {
+    "@types/babel__core": "^7.1.19",
+    "@types/babel__traverse": "^7.17.1",
+    "@types/prettier": "^2.6.3",
+    "dirfilename": "^1.0.4",
+    "esno": "^0.16.3",
+    "rollup": "^2.55",
+    "rollup-plugin-dts": "^4.2.2",
+    "typescript": "4.8.0-dev.20220615",
+    "vite": "^2.9.12",
+    "vite-dts": "^1.0.4",
+    "vite-plugin-dts": "^1.2.0",
+    "vitest": "^0.15.1"
+  }
+}
