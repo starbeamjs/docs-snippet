@@ -1,5 +1,7 @@
 export abstract class ParsedLine {
-  static parse(line: string, offset: number): Line {
+  static parse(rawLine: string, offset: number): Line {
+    const line = rawLine.trimStart();
+
     if (line.startsWith("// #region ")) {
       return new ParsedRegionStartLine(
         offset,
@@ -13,6 +15,8 @@ export abstract class ParsedLine {
       return new ParsedHighlightLine("highlight:start", offset);
     } else if (line.startsWith("// #highlight:end")) {
       return new ParsedHighlightLine("highlight:end", offset);
+    } else if (line.startsWith("// #ignore:next")) {
+      return new ParsedHighlightLine("ignore:next", offset);
     } else {
       return new ParsedContentLine(offset, line);
     }
@@ -35,7 +39,8 @@ export abstract class ParsedLine {
 type ParsedHighlightType =
   | "highlight:start"
   | "highlight:end"
-  | "highlight:next";
+  | "highlight:next"
+  | "ignore:next";
 
 class ParsedRegionEndLine extends ParsedLine {
   readonly type = "region:end";
@@ -88,7 +93,8 @@ export type LineType =
   | "region:end"
   | "highlight:start"
   | "highlight:end"
-  | "highlight:next";
+  | "highlight:next"
+  | "ignore:next";
 
 export type Line =
   | ParsedContentLine

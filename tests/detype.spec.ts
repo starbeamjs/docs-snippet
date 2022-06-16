@@ -1,5 +1,4 @@
 import { describe, test, expect } from "vitest";
-import snippet, { Source, format } from "docs-snippet";
 import { expectSnippet } from "./utils.js";
 
 describe("converting sources into snippets", () => {

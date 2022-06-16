@@ -73,15 +73,11 @@ class ParseRegion {
   }
 
   parse(): { region: LanguageRegion; rest: Lines } {
-    let current = this.#lines.next();
+    const lines = new LinesIterator(this.#lines);
+    // let current = this.#lines.next();
+    let line = lines.next();
 
-    loop: while (true) {
-      if (current === null) {
-        break;
-      }
-
-      const [line, lines] = current;
-
+    loop: while (line) {
       switch (line.type) {
         case "region:start": {
           throw new Error("Nested regions are not supported");
@@ -130,6 +126,17 @@ class ParseRegion {
 
                 break;
               }
+
+              case "ignore:next": {
+                // the ignore marker and the line that follows it
+                this.#removeLine(2);
+                line = lines.next();
+
+                break;
+              }
+
+              default:
+                exhaustive(line);
             }
           } else {
             exhaustive(line);
@@ -137,7 +144,7 @@ class ParseRegion {
         }
       }
 
-      current = lines.next();
+      line = lines.next();
     }
 
     return {
@@ -150,8 +157,12 @@ class ParseRegion {
         },
         this.#highlights
       ),
-      rest: current?.[1] ?? Lines.empty(),
+      rest: lines.rest(),
     };
+  }
+
+  #removeLine(n = 1) {
+    this.#removed += n;
   }
 
   /**
@@ -174,6 +185,38 @@ class ParseRegion {
     const offset = line.sourceOffset - this.#sourceStart - this.#removed;
     this.#removed++;
     return offset;
+  }
+}
+
+class LinesIterator {
+  #lines: Lines;
+
+  constructor(lines: Lines) {
+    this.#lines = lines;
+  }
+
+  consume(): void {
+    const next = this.#lines.next();
+
+    if (next === null) {
+      return;
+    }
+
+    this.#lines = next[1];
+  }
+
+  rest(): Lines {
+    return this.#lines;
+  }
+
+  next(): Line | null {
+    const next = this.#lines.next();
+
+    if (next === null) {
+      return next;
+    }
+    this.#lines = next[1];
+    return next[0];
   }
 }
 

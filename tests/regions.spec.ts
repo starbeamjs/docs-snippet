@@ -238,6 +238,51 @@ describe("extracting regions from a snippet", () => {
       ["const e = a + d;", "", "console.log(e);"],
     ]);
   });
+
+  test("a region with ignore:next", () => {
+    const snippet = Snippet(`
+      const a = 1;
+
+      // #region a
+      // a normal comment is here
+      const b = 2;
+
+      // #ignore:next
+      {
+        // #highlight:next
+        const c = a + b;
+        // #endregion
+      }
+    `);
+
+    const snippetRegions = snippet.regions;
+
+    const aRegion = snippetRegions?.get("a");
+
+    if (aRegion === undefined) {
+      expect(aRegion).not.toBe(null);
+      return;
+    }
+
+    expect(aRegion.js.code).toBe(
+      "// a normal comment is here\n" +
+        "const b = 2;\n" +
+        "\n" +
+        "const c = a + b;\n"
+    );
+
+    // the a region should not include ignored lines, and highlight lines shouldn't include ignored lines.
+    expect(aRegion.js.highlights.map((h) => h.lines)).toEqual(["4"]);
+
+    expect(aRegion.ts.code).toBe(
+      "// a normal comment is here\n" +
+        "const b = 2;\n" +
+        "\n" +
+        "const c = a + b;\n"
+    );
+
+    expect(aRegion.ts.highlights.map((h) => h.lines)).toEqual(["4"]);
+  });
 });
 
 function codeRegions(regions: Regions | null): {
