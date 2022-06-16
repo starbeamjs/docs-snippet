@@ -242,15 +242,15 @@ describe("extracting regions from a snippet", () => {
   test("a region with ignore:next", () => {
     const snippet = Snippet(`
       const a = 1;
+      const b = 2;
 
       // #region a
-      // a normal comment is here
-      const b = 2;
+      import type { Reactive } from "reactive";
 
       // #ignore:next
       {
         // #highlight:next
-        const c = a + b;
+        const c: Reactive = a + b;
         // #endregion
       }
     `);
@@ -264,24 +264,18 @@ describe("extracting regions from a snippet", () => {
       return;
     }
 
-    expect(aRegion.js.code).toBe(
-      "// a normal comment is here\n" +
-        "const b = 2;\n" +
-        "\n" +
-        "const c = a + b;\n"
-    );
+    expect(aRegion.js.code).toBe("const c = a + b;\n");
 
     // the a region should not include ignored lines, and highlight lines shouldn't include ignored lines.
-    expect(aRegion.js.highlights.map((h) => h.lines)).toEqual(["4"]);
+    expect(aRegion.js.highlights.map((h) => h.lines)).toEqual(["1"]);
 
     expect(aRegion.ts.code).toBe(
-      "// a normal comment is here\n" +
-        "const b = 2;\n" +
-        "\n" +
-        "const c = a + b;\n"
+      `import type { Reactive } from "reactive";\n` +
+        `\n` +
+        `const c: Reactive = a + b;\n`
     );
 
-    expect(aRegion.ts.highlights.map((h) => h.lines)).toEqual(["4"]);
+    expect(aRegion.ts.highlights.map((h) => h.lines)).toEqual(["3"]);
   });
 });
 

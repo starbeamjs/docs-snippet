@@ -74,10 +74,16 @@ class ParseRegion {
 
   parse(): { region: LanguageRegion; rest: Lines } {
     const lines = new LinesIterator(this.#lines);
-    // let current = this.#lines.next();
     let line = lines.next();
+    let started = false;
 
     loop: while (line) {
+      if (started === false && line.type === "line" && line.content === "") {
+        this.#removeLine();
+        line = lines.next();
+        continue;
+      }
+
       switch (line.type) {
         case "region:start": {
           throw new Error("Nested regions are not supported");
@@ -89,6 +95,7 @@ class ParseRegion {
 
         case "line": {
           this.#regionSource.push(line.content);
+
           break;
         }
 
@@ -130,7 +137,7 @@ class ParseRegion {
               case "ignore:next": {
                 // the ignore marker and the line that follows it
                 this.#removeLine(2);
-                line = lines.next();
+                lines.consume();
 
                 break;
               }
@@ -144,6 +151,7 @@ class ParseRegion {
         }
       }
 
+      started = true;
       line = lines.next();
     }
 
@@ -195,6 +203,16 @@ class LinesIterator {
     this.#lines = lines;
   }
 
+  [Symbol.for("nodejs.util.inspect.custom")]() {
+    let next = this.#lines.next();
+
+    return { next: next?.[0], rest: this.#lines };
+  }
+
+  rest(): Lines {
+    return this.#lines;
+  }
+
   consume(): void {
     const next = this.#lines.next();
 
@@ -203,10 +221,6 @@ class LinesIterator {
     }
 
     this.#lines = next[1];
-  }
-
-  rest(): Lines {
-    return this.#lines;
   }
 
   next(): Line | null {

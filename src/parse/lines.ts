@@ -124,6 +124,15 @@ export class Lines {
     return `Lines(${this.#lines.length})`;
   }
 
+  *[Symbol.iterator](): IterableIterator<Line> {
+    let current = this.next();
+
+    while (current) {
+      yield current[0];
+      current = current[1].next();
+    }
+  }
+
   next(): readonly [Line, Lines] | null {
     const [line, ...lines] = this.#lines;
 
