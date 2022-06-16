@@ -18,7 +18,7 @@ export abstract class ParsedLine {
     } else if (line.startsWith("// #ignore:next")) {
       return new ParsedHighlightLine("ignore:next", offset);
     } else {
-      return new ParsedContentLine(offset, line);
+      return new ParsedContentLine(offset, rawLine);
     }
   }
 

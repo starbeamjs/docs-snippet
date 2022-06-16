@@ -1,9 +1,6 @@
-import {
-  Highlight,
-  HighlightLines,
-  HighlightRange,
-} from "../annotations/highlight.js";
+import { Highlight } from "../annotations/highlight.js";
 import { LanguageRegion } from "../annotations/regions.js";
+import { format } from "../utils.js";
 import { Lines, ParsedHighlightLine, type Line } from "./lines.js";
 
 export class ParseRegions {
@@ -158,7 +155,7 @@ class ParseRegion {
     return {
       region: new LanguageRegion(
         this.#name,
-        this.#regionSource.join("\n"),
+        format(this.#regionSource.join("\n")),
         {
           start: this.#sourceStart,
           end: this.#sourceStart + this.#regionSource.length,
