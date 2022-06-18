@@ -30,20 +30,7 @@ export default defineConfig({
           entryFileNames: "[name].cjs",
         },
       ],
-      // output: {
-      //   exports: "named",
-      //   entryFileNames: (arg) => {
-      //     console.log(arg.name);
-      //     return "[name]/[name].[format].js";
-      //   },
-      //   globals: {
-      //     prettier: "prettier",
-      //     "@babel/core": "BabelCore",
-      //     "@babel/plugin-transform-typescript":
-      //       "BabelPluginTransformTypescript",
-      //     "@babel/plugin-syntax-decorators": "BabelPluginSyntaxDecorators",
-      //   },
-      // },
+
       external: Object.keys(pkg.dependencies),
     },
   },

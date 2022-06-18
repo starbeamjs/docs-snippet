@@ -22,7 +22,7 @@
   },
   "scripts": {
     "test": "vitest",
-    "prepare": "node ./.scripts/prepack.js"
+    "prepack": "node ./.scripts/prepack.js"
   },
   "pnpm": {
     "overrides": {

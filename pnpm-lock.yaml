@@ -42,13 +42,19 @@ importers:
       dirfilename: 1.0.4
       esno: 0.16.3
       rollup: 2.75.6
-      rollup-plugin-dts: 4.2.2_sc4qhkknpbvrn6dx5eutagvk74
+      rollup-plugin-dts: 4.2.2_3aetttqdnnekychac5axl72bpa
       shelljs: 0.8.5
-      typescript: 4.8.0-dev.20220616
+      typescript: 4.8.0-dev.20220617
       vite: 2.9.12
       vite-dts: 1.0.4_vite@2.9.12
       vite-plugin-dts: 1.2.0_vite@2.9.12
       vitest: 0.15.1
+
+  tests:
+    specifiers:
+      docs-snippet: workspace:*
+    dependencies:
+      docs-snippet: link:..
 
 packages:
 
@@ -415,7 +421,7 @@ packages:
       resolve: 1.17.0
       semver: 7.3.7
       source-map: 0.6.1
-      typescript: 4.8.0-dev.20220616
+      typescript: 4.8.0-dev.20220617
     dev: true
 
   /@microsoft/tsdoc-config/0.16.1:
@@ -1519,7 +1525,7 @@ packages:
     engines: {iojs: '>=1.0.0', node: '>=0.10.0'}
     dev: true
 
-  /rollup-plugin-dts/4.2.2_sc4qhkknpbvrn6dx5eutagvk74:
+  /rollup-plugin-dts/4.2.2_3aetttqdnnekychac5axl72bpa:
     resolution: {integrity: sha512-A3g6Rogyko/PXeKoUlkjxkP++8UDVpgA7C+Tdl77Xj4fgEaIjPSnxRmR53EzvoYy97VMVwLAOcWJudaVAuxneQ==}
     engines: {node: '>=v12.22.11'}
     peerDependencies:
@@ -1528,7 +1534,7 @@ packages:
     dependencies:
       magic-string: 0.26.2
       rollup: 2.75.6
-      typescript: 4.8.0-dev.20220616
+      typescript: 4.8.0-dev.20220617
     optionalDependencies:
       '@babel/code-frame': 7.16.7
     dev: true
@@ -1689,8 +1695,8 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
-  /typescript/4.8.0-dev.20220616:
-    resolution: {integrity: sha512-h2wzWHPPOsv1ppCSxN7CcKYni+aTGdNbWdOg8CXIvOchMVIHzfa8TeKkEH5hugVZCJkKslY6hhcuQ2qCwuXBJA==}
+  /typescript/4.8.0-dev.20220617:
+    resolution: {integrity: sha512-wVck+bYkw1T7uOZ5448lp00u9+8GPpNVLX6AXV7uMPgvWqw0exrIZ8BEpGmrt+buhkCKfZeiTOX1OF/sS/EAJw==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: true
