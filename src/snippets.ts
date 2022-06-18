@@ -65,15 +65,45 @@ export function Snippet(
   source: string,
   options: Options & { prettier?: PrettierOptions; swc?: SwcOptions } = {}
 ): Snippets {
-  const input = options?.trim === false ? source : source.trim();
+  try {
+    const input = options?.trim === false ? source : source.trim();
 
-  const saved = saveWS(input, options);
+    const saved = saveWS(input, options);
 
-  const js = saved.transform(tsc);
-  const ts = saved;
+    const js = saved.transform(tsc);
+    const ts = saved;
 
-  return Snippets.create(
-    format(ts.restore(), options),
-    format(js.restore(), options)
-  );
+    return Snippets.create(
+      format(ts.restore(), options),
+      format(js.restore(), options)
+    );
+  } catch (e) {
+    if (isError(e)) {
+      e.message = stripAnsi(e.message);
+      e.stack = stripAnsi(e.stack);
+    }
+    throw e;
+  }
+}
+
+function isError(e: unknown): e is { message: string; stack: string } {
+  return typeof e === "object" && e !== null && "message" in e && "stack" in e;
+}
+
+// frokm https://github.com/chalk/ansi-regex/blob/main/index.js
+const ANSI = ({ onlyFirst = false }: { onlyFirst?: boolean } = {}) => {
+  const pattern = [
+    "[\\u001B\\u009B][[\\]()#;?]*(?:(?:(?:(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]+)*|[a-zA-Z\\d]+(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]*)*)?\\u0007)",
+    "(?:(?:\\d{1,4}(?:;\\d{0,4})*)?[\\dA-PR-TZcf-nq-uy=><~]))",
+  ].join("|");
+
+  return new RegExp(pattern, onlyFirst ? undefined : "g");
+};
+
+function stripAnsi(string: string) {
+  if (typeof string !== "string") {
+    throw new TypeError(`Expected a \`string\`, got \`${typeof string}\``);
+  }
+
+  return string.replace(ANSI(), "");
 }
