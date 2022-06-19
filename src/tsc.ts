@@ -1,9 +1,9 @@
-import { transform, createConfigItem } from "@babel/core";
-import type { VisitNodeObject, Node } from "@babel/traverse";
+import { createConfigItem, transform } from "@babel/core";
+import * as babel from "@babel/core";
 
 // @ts-expect-error We're only importing so we can create a config item, so we don't care about types
 import bts from "@babel/plugin-transform-typescript";
-const babelTsTransform = createConfigItem(bts);
+const babelTsTransform = createConfigItem([bts, { isTSX: true }]);
 
 // @ts-expect-error We're only importing so we can create a config item, so we don't care about types
 import bsd from "@babel/plugin-syntax-decorators";

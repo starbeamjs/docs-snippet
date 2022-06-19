@@ -279,7 +279,7 @@ describe("extracting regions from a snippet", () => {
   });
 });
 
-function codeRegions(regions: Regions | null): {
+export function codeRegions(regions: Regions | null): {
   [name: string]: { ts: string; js: string };
 } | null {
   if (regions === null) {
