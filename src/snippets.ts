@@ -90,7 +90,7 @@ function isError(e: unknown): e is { message: string; stack: string } {
   return typeof e === "object" && e !== null && "message" in e && "stack" in e;
 }
 
-// frokm https://github.com/chalk/ansi-regex/blob/main/index.js
+// from https://github.com/chalk/ansi-regex/blob/main/index.js
 const ANSI = ({ onlyFirst = false }: { onlyFirst?: boolean } = {}) => {
   const pattern = [
     "[\\u001B\\u009B][[\\]()#;?]*(?:(?:(?:(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]+)*|[a-zA-Z\\d]+(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]*)*)?\\u0007)",
