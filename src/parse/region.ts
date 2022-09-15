@@ -158,7 +158,7 @@ class ParseRegion {
         format(this.#regionSource.join("\n")),
         {
           start: this.#sourceStart,
-          end: this.#sourceStart + this.#regionSource.length,
+          end: this.#sourceStart + this.#regionSource.length + this.#removed,
         },
         this.#highlights
       ),
